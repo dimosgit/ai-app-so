@@ -32,12 +32,12 @@
 
 ## Milestones
 
-- M1 Repo created
-- M2 CAP service ready
-- M3 UI generated
-- M4 Deployed to CF
-- M5 Published to HTML5 repo
-- M6 Tile ready in Work Zone
+- [x] M1 Repo created
+- [x] M2 CAP service ready
+- [x] M3 UI generated
+- [x] M4 Deployed to CF
+- [x] M5 Published to HTML5 repo
+- [ ] M6 Tile ready in Work Zone
 
 ## Technical Context
 
