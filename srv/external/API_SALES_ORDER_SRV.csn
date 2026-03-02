@@ -1,0 +1,35 @@
+{
+    "definitions": {
+        "API_SALES_ORDER_SRV": {
+            "kind": "service",
+            "@cds.external": true
+        },
+        "API_SALES_ORDER_SRV.A_SalesOrder": {
+            "kind": "entity",
+            "@cds.persistence.skip": true,
+            "elements": {
+                "SalesOrder": {
+                    "key": true,
+                    "type": "cds.String",
+                    "length": 10
+                },
+                "SoldToParty": {
+                    "type": "cds.String",
+                    "length": 10
+                },
+                "TotalNetAmount": {
+                    "type": "cds.Decimal",
+                    "precision": 16,
+                    "scale": 3
+                },
+                "TransactionCurrency": {
+                    "type": "cds.String",
+                    "length": 5
+                },
+                "RequestedDeliveryDate": {
+                    "type": "cds.Date"
+                }
+            }
+        }
+    }
+}
