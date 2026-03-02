@@ -27,6 +27,11 @@
         "credentials": {
           "destination": "S4HANA_ODATA_SO"
         }
+      },
+      "production": {
+        "db": {
+          "kind": "hana"
+        }
       }
     }
   }

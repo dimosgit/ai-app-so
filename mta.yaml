@@ -6,8 +6,10 @@ modules:
     type: nodejs
     path: gen/srv
     parameters:
-      memory: 128M
-      disk-quota: 256M
+      memory: 256M
+      disk-quota: 512M
+      health-check-type: process
+      start-timeout: 300
     requires:
       - name: ai-app-so-db
       - name: ai-app-so-auth
