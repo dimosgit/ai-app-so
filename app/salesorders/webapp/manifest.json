@@ -1,11 +1,11 @@
 {
     "_version": "1.37.0",
     "sap.app": {
-        "id": "salesorders",
+        "id": "ai.app.so.salesorders",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
-            "version": "1.0.0"
+            "version": "1.0.1"
         },
         "title": "{{appTitle}}",
         "description": "{{appDescription}}",

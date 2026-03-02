@@ -1,6 +1,6 @@
 {
     "name": "salesorders",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Sales Order Attention List UI",
     "devDependencies": {
         "@sap/ux-ui5-tooling": "1",

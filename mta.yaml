@@ -62,6 +62,38 @@ modules:
           name: salesorders
           target-path: resources/
 
+  - name: ai-app-so-destination-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: ai-app-so-destination-service
+        parameters:
+          content-target: true
+      - name: ai-app-so-html5-repo-host
+        parameters:
+          service-key:
+            name: ai-app-so-html5-repo-host-key
+      - name: ai-app-so-auth
+        parameters:
+          service-key:
+            name: ai-app-so-auth-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: ai-app-so-html5-repo-host
+              ServiceInstanceName: ai-app-so-html5-repo-host
+              ServiceKeyName: ai-app-so-html5-repo-host-key
+              sap.cloud.service: ai.app.so
+            - Name: ai-app-so-auth
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: ai-app-so-auth
+              ServiceKeyName: ai-app-so-auth-key
+              sap.cloud.service: ai.app.so
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
+
   - name: salesorders
     type: html5
     path: app/salesorders
