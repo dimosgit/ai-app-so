@@ -21,9 +21,9 @@
       "db": {
         "kind": "sql"
       },
-      "S4HANA_ODATA_SO": {
+      "API_SALES_ORDER_SRV": {
         "kind": "odata-v2",
-        "model": "srv/external/S4HANA_ODATA_SO",
+        "model": "srv/external/API_SALES_ORDER_SRV",
         "credentials": {
           "destination": "S4HANA_ODATA_SO"
         }
@@ -34,5 +34,10 @@
         }
       }
     }
+  },
+  "devDependencies": {
+    "@sap-cloud-sdk/http-client": "^4.5.1",
+    "@sap-cloud-sdk/resilience": "^4.5.1",
+    "sqlite3": "^5.1.7"
   }
 }

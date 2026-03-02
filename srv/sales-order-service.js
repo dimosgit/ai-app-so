@@ -1,7 +1,7 @@
 const cds = require('@sap/cds');
 
 module.exports = cds.service.impl(async function () {
-    const s4 = await cds.connect.to('S4HANA_ODATA_SO
+    const s4 = await cds.connect.to('API_SALES_ORDER_SRV');
     const { SalesOrders, OrderReviews } = this.entities;
     const { SalesOrderExtensions } = cds.entities('my.salesorder');
 
