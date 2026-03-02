@@ -1,57 +1,33 @@
 {
   "name": "ai-app-so",
   "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
+  "description": "Sales Order Attention List",
+  "repository": "https://github.com/dimosgit/ai-app-so",
   "license": "UNLICENSED",
-  "private": true,
   "dependencies": {
-    "@sap-cloud-sdk/http-client": "^4.5.1",
-    "@sap-cloud-sdk/resilience": "^4.5.1",
-    "@sap/cds": ">=5",
+    "@sap/cds": "^8",
+    "@sap/xsenv": "^5",
+    "@sap/xssec": "^4",
     "express": "^4",
-    "hdb": "^2.27.1"
+    "hdb": "^0",
+    "passport": "^0"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "build": "cds build --production"
   },
   "cds": {
     "requires": {
-      "API_SALES_ORDER_SRV": {
+      "db": {
+        "kind": "sql"
+      },
+      "S4HANA_ODATA_SO": {
         "kind": "odata-v2",
-        "model": "srv/external/API_SALES_ORDER_SRV",
+        "model": "srv/external/S4HANA_ODATA_SO",
         "credentials": {
-          "destination": "S4_SALESORDER_ODATA"
+          "destination": "S4HANA_ODATA_SO"
         }
       }
-    }
-  },
-  "devDependencies": {
-    "sqlite3": "^5.0.4"
-  },
-  "scripts": {
-    "start": "cds run"
-  },
-  "eslintConfig": {
-    "extends": "eslint:recommended",
-    "env": {
-      "es2020": true,
-      "node": true,
-      "jest": true,
-      "mocha": true
-    },
-    "globals": {
-      "SELECT": true,
-      "INSERT": true,
-      "UPDATE": true,
-      "DELETE": true,
-      "CREATE": true,
-      "DROP": true,
-      "CDL": true,
-      "CQL": true,
-      "CXL": true,
-      "cds": true
-    },
-    "rules": {
-      "no-console": "off",
-      "require-atomic-updates": "off"
     }
   }
 }

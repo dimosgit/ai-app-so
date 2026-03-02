@@ -1,0 +1,20 @@
+{
+    "xsappname": "ai-app-so",
+    "tenant-mode": "dedicated",
+    "description": "Sales Order Attention List Security Configuration",
+    "scopes": [
+        {
+            "name": "$XSAPPNAME.User",
+            "description": "User Scope"
+        }
+    ],
+    "role-templates": [
+        {
+            "name": "UserRole",
+            "description": "General User Role",
+            "scope-references": [
+                "$XSAPPNAME.User"
+            ]
+        }
+    ]
+}

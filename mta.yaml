@@ -1,0 +1,85 @@
+_schema-version: "3.1"
+ID: ai-app-so
+version: 1.0.0
+modules:
+  - name: ai-app-so-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      memory: 128M
+      disk-quota: 256M
+    requires:
+      - name: ai-app-so-db
+      - name: ai-app-so-auth
+      - name: ai-app-so-destination
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+
+  - name: ai-app-so-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 128M
+      disk-quota: 256M
+    requires:
+      - name: ai-app-so-db
+
+  - name: ai-app-so-app-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: ai-app-so-html5-repo-host
+        parameters:
+          content-target: true
+    parameters:
+      memory: 128M
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - salesorders.zip
+          name: salesorders
+          target-path: resources/
+
+  - name: salesorders
+    type: html5
+    path: app/salesorders
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms: []
+
+resources:
+  - name: ai-app-so-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  - name: ai-app-so-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: ai-app-so-${org}-${space}
+        tenant-mode: dedicated
+
+  - name: ai-app-so-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+
+  - name: ai-app-so-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
