@@ -13,7 +13,7 @@ modules:
     requires:
       - name: ai-app-so-db
       - name: ai-app-so-auth
-      - name: ai-app-so-destination
+      - name: ai-app-so-destination-service
     provides:
       - name: srv-api
         properties:
@@ -52,7 +52,23 @@ modules:
       - name: ai-app-so-html5-repo-host
         parameters:
           content-target: true
+      - name: ai-app-so-destination-service
+        parameters:
+          content-target: true
     parameters:
+      content:
+        instance:
+          destinations:
+            - Name: ai_app_so_html5_repo_host
+              ServiceInstanceName: ai-app-so-html5-repo-host
+              ServiceKeyName: ai-app-so-html5-repo-host-key
+              sap.cloud.service: ai.app.so
+            - Authentication: OAuth2UserTokenExchange
+              Name: ai_app_so_auth
+              ServiceInstanceName: ai-app-so-auth
+              ServiceKeyName: ai-app-so-auth-key
+              sap.cloud.service: ai.app.so
+          existing_destinations_policy: update
       memory: 128M
     build-parameters:
       build-result: resources
@@ -89,12 +105,33 @@ resources:
       config:
         xsappname: ai-app-so-${org}-${space}
         tenant-mode: dedicated
+        role-collections:
+          - name: 'SalesOrderReviewer-${space}'
+            description: 'Review Sales Orders'
+            role-template-references:
+              - $XSAPPNAME.Token_Exchange
 
-  - name: ai-app-so-destination
+  - name: ai-app-so-destination-service
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
       service-plan: lite
+      config:
+        HTML5Runtime_Enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Name: ai-app-so-srv-api
+                Description: CAP Backend API
+                Authentication: NoAuthentication
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true
+            existing_destinations_policy: update
+    requires:
+      - name: srv-api
 
   - name: ai-app-so-html5-repo-runtime
     type: org.cloudfoundry.managed-service
