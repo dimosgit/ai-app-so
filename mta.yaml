@@ -19,6 +19,22 @@ modules:
         properties:
           srv-url: ${default-url}
 
+  - name: ai-app-so-app-router
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      disk-quota: 512M
+      memory: 256M
+    requires:
+      - name: ai-app-so-auth
+      - name: ai-app-so-html5-repo-runtime
+      - name: srv-api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          name: srv-api
+          url: ~{srv-url}
+
   - name: ai-app-so-db-deployer
     type: hdb
     path: gen/db
@@ -79,6 +95,12 @@ resources:
     parameters:
       service: destination
       service-plan: lite
+
+  - name: ai-app-so-html5-repo-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
 
   - name: ai-app-so-html5-repo-host
     type: org.cloudfoundry.managed-service

@@ -5,6 +5,8 @@
   "repository": "https://github.com/dimosgit/ai-app-so",
   "license": "UNLICENSED",
   "dependencies": {
+    "@sap-cloud-sdk/http-client": "^4.5.1",
+    "@sap-cloud-sdk/resilience": "^4.5.1",
     "@sap/cds": "^8",
     "@sap/xsenv": "^5",
     "@sap/xssec": "^4",
@@ -36,8 +38,6 @@
     }
   },
   "devDependencies": {
-    "@sap-cloud-sdk/http-client": "^4.5.1",
-    "@sap-cloud-sdk/resilience": "^4.5.1",
     "sqlite3": "^5.1.7"
   }
 }
