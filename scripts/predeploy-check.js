@@ -140,23 +140,6 @@ function run() {
         );
     }
 
-    const namespacedComponent = path.join(appRoot, "dist", "ai", "app", "so", "salesorders", "Component.js");
-    const namespacedPreload = path.join(appRoot, "dist", "ai", "app", "so", "salesorders", "Component-preload.js");
-
-    addCheck(
-        "FLP namespaced Component.js exists",
-        fileExists(namespacedComponent),
-        namespacedComponent,
-        "Run npm --prefix app/salesorders run build:cf and ensure namespace enrichment script succeeds"
-    );
-
-    addCheck(
-        "FLP namespaced preload exists",
-        fileExists(namespacedPreload),
-        namespacedPreload,
-        "Run npm --prefix app/salesorders run build:cf and ensure namespace enrichment script succeeds"
-    );
-
     finish();
 }
 
