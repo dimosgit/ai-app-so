@@ -54,6 +54,24 @@
 - Result was unstable/default column behavior in local FE runtime.
 - Impact: UI looked broken even when services were up.
 
+## 9) Launchpad Namespaced Path Must Be Explicitly Routed
+
+- Work Zone/Launchpad requested resources under namespaced paths such as `/ai/app/so/salesorders/Component.js`.
+- AppRouter initially routed only `/salesorders/*`, so Launchpad resource requests failed at runtime.
+- Impact: app was deployed and listed in HTML5 repo, but tile launch still failed.
+
+## 10) Duplicate Manifest in ZIP Causes HTML5 Repo Warning + Ambiguity
+
+- Packaging previously mirrored namespaced resources and also copied `manifest.json` into namespaced folder.
+- HTML5 repo reported duplicate app Id warning and ignored one manifest.
+- Impact: version looked deployed, but runtime behavior stayed inconsistent.
+
+## 11) 404 vs 401 Is a Fast Routing Health Signal
+
+- For protected static resources behind AppRouter, `404` generally means route/path mismatch, while `401` means route matches and auth is enforced.
+- After fixing namespaced route, `/ai/app/so/salesorders/Component.js` changed from `404` to `401`, confirming routing layer was fixed.
+- Impact: reduced guesswork and sped up diagnosis.
+
 ## What Worked Well
 
 - Rapid commit cadence preserved traceability.
@@ -85,6 +103,8 @@
   3. FE component loads from local UI server
   4. `UI.LineItem` present in metadata
   5. list endpoint returns expected sample volume
+  6. AppRouter route includes namespaced FLP path (`^/ai/app/so/salesorders/(.*)$`)
+  7. packaged ZIP has namespaced component resources but only one `manifest.json` at root
 
 ## Local Validation Contract (New)
 
@@ -95,6 +115,14 @@
   - `curl` confirms `UI.LineItem` exists in metadata
   - `curl` confirms non-trivial local dataset (not just 2–3 records)
 - Keep this as the first troubleshooting step whenever app appears “frozen”.
+
+## Cloud Runtime Validation Contract (Added)
+
+- **No “fixed” status** until these checks pass after deploy:
+  - `cf html5-list -di <destination-service> -u` shows expected app/version timestamp
+  - AppRouter includes route for `/ai/app/so/salesorders/*`
+  - probing namespaced component through AppRouter returns `401` or `200` (not `404`)
+  - HTML5 deploy logs show no duplicate-manifest warning
 
 ## Commit-Pattern Insights
 
