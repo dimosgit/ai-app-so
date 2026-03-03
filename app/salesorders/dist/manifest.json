@@ -17,7 +17,7 @@
 		"description": "{{appDescription}}",
 		"dataSources": {
 			"mainService": {
-				"uri": "/odata/v4/sales-order/",
+				"uri": "/ai-app-so-srv-api/odata/v4/sales-order/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "4.0"

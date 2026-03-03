@@ -14,7 +14,7 @@ server:
             - /test-resources
           url: https://ui5.sap.com
         backend:
-          - path: /odata/v4
+          - path: /ai-app-so-srv-api/odata/v4
             url: http://localhost:4004
             destination: cap-backend
     - name: fiori-tools-appreload
