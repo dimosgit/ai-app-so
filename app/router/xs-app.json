@@ -10,6 +10,12 @@
             "csrfProtection": true
         },
         {
+            "source": "^/ai/app/so/salesorders/(.*)$",
+            "target": "ai/app/so/salesorders/$1",
+            "service": "html5-apps-repo-rt",
+            "authenticationType": "xsuaa"
+        },
+        {
             "source": "^/salesorders/(.*)$",
             "target": "$1",
             "service": "html5-apps-repo-rt",

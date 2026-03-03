@@ -30,11 +30,13 @@ function run() {
     const componentPath = path.join(webappRoot, "Component.js");
     const uiPackagePath = path.join(appRoot, "package.json");
     const mtaPath = path.join(root, "mta.yaml");
+    const xsAppPath = path.join(root, "app", "router", "xs-app.json");
 
     addCheck("manifest exists", fileExists(manifestPath), manifestPath, "Create or restore webapp/manifest.json");
     addCheck("Component exists", fileExists(componentPath), componentPath, "Create or restore webapp/Component.js");
     addCheck("UI module package exists", fileExists(uiPackagePath), uiPackagePath, "Create or restore app/salesorders/package.json");
     addCheck("mta exists", fileExists(mtaPath), mtaPath, "Create or restore mta.yaml");
+    addCheck("xs-app exists", fileExists(xsAppPath), xsAppPath, "Create or restore app/router/xs-app.json");
 
     if (!checks.every((check) => check.ok)) {
         return finish();
@@ -44,6 +46,7 @@ function run() {
     const componentJs = readText(componentPath);
     const uiPackage = readJson(uiPackagePath);
     const mtaYaml = readText(mtaPath);
+    const xsApp = readJson(xsAppPath);
 
     const appId = manifest?.["sap.app"]?.id;
     const appVersion = manifest?.["sap.app"]?.applicationVersion?.version;
@@ -116,6 +119,15 @@ function run() {
         "Add ai-app-so-srv-api under destination service init_data.subaccount"
     );
 
+    const routeList = Array.isArray(xsApp?.routes) ? xsApp.routes : [];
+    const hasNamespacedFlpRoute = routeList.some((route) => route?.source === "^/ai/app/so/salesorders/(.*)$" && route?.service === "html5-apps-repo-rt");
+    addCheck(
+        "xs-app has namespaced FLP route",
+        hasNamespacedFlpRoute,
+        hasNamespacedFlpRoute ? "Found route ^/ai/app/so/salesorders/(.*)$" : "Route for /ai/app/so/salesorders/* missing",
+        "Add html5-apps-repo-rt route for source ^/ai/app/so/salesorders/(.*)$"
+    );
+
     const distZip = path.join(appRoot, "dist", "salesorders.zip");
     if (fileExists(distZip)) {
         addCheck("built artifact exists", true, distZip, "");
@@ -127,6 +139,23 @@ function run() {
             "Run: npm --prefix app/salesorders run build:cf"
         );
     }
+
+    const namespacedComponent = path.join(appRoot, "dist", "ai", "app", "so", "salesorders", "Component.js");
+    const namespacedPreload = path.join(appRoot, "dist", "ai", "app", "so", "salesorders", "Component-preload.js");
+
+    addCheck(
+        "FLP namespaced Component.js exists",
+        fileExists(namespacedComponent),
+        namespacedComponent,
+        "Run npm --prefix app/salesorders run build:cf and ensure namespace enrichment script succeeds"
+    );
+
+    addCheck(
+        "FLP namespaced preload exists",
+        fileExists(namespacedPreload),
+        namespacedPreload,
+        "Run npm --prefix app/salesorders run build:cf and ensure namespace enrichment script succeeds"
+    );
 
     finish();
 }
