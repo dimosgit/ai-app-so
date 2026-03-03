@@ -91,6 +91,13 @@ modules:
               ServiceKeyName: ai-app-so-auth-key
               sap.cloud.service: ai.app.so
           existing_destinations_policy: update
+        subaccount:
+          destinations:
+            - Name: ai-app-so-html5-repo-host
+              ServiceInstanceName: ai-app-so-html5-repo-host
+              ServiceKeyName: ai-app-so-html5-repo-host-key
+              sap.cloud.service: ai.app.so
+          existing_destinations_policy: update
     build-parameters:
       no-source: true
 

@@ -28,7 +28,7 @@
       }
     },
     "crossNavigation": {
-      "inbound": {
+      "inbounds": {
         "salesorders-display": {
           "semanticObject": "SalesOrderReview",
           "action": "display",
