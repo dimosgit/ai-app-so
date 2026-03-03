@@ -11,7 +11,7 @@
       ]
     },
     "applicationVersion": {
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
@@ -59,6 +59,9 @@
   },
   "sap.ui5": {
     "flexEnabled": true,
+    "resourceRoots": {
+      "ai.app.so.salesorders": "./"
+    },
     "dependencies": {
       "minUI5Version": "1.120.0",
       "libs": {
@@ -75,7 +78,11 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "salesorders.i18n.i18n"
+          "bundleName": "ai.app.so.salesorders.i18n.i18n",
+          "supportedLocales": [
+            "",
+            "en"
+          ]
         }
       },
       "": {

@@ -1,0 +1,30 @@
+specVersion: "3.1"
+metadata:
+  name: salesorders
+type: application
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertErrors: false
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+        backend:
+          - path: /odata/v4
+            url: http://localhost:4004
+            destination: cap-backend
+    - name: fiori-tools-appreload
+      afterMiddleware: fiori-tools-proxy
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: ai.app.so.salesorders
+        ui5Theme: sap_horizon

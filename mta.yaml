@@ -153,6 +153,18 @@ resources:
                 HTML5.ForwardAuthToken: true
                 HTML5.DynamicDestination: true
             existing_destinations_policy: update
+          subaccount:
+            destinations:
+              - Name: ai-app-so-srv-api
+                Description: CAP Backend API
+                Authentication: NoAuthentication
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true
+                sap.cloud.service: ai.app.so
+            existing_destinations_policy: update
     requires:
       - name: srv-api
 

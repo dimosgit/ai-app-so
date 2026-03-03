@@ -42,6 +42,18 @@
 - Example: no hard gate that app must be discoverable in Work Zone Content Explorer before moving to site role assignment.
 - Impact: loops between deployment, destination tweaks, and role/site debugging.
 
+## 7) Local Runtime Gate Was Introduced Too Late
+
+- We focused on CF + Work Zone visibility first, then discovered runtime issues (blank FLP shell, no default columns, small fallback dataset).
+- Local FLP sandbox validation would have surfaced these before any deploy/redeploy loops.
+- Impact: avoidable cloud cycles and delayed root-cause isolation.
+
+## 8) Metadata/Annotation Contract Was Not Enforced Locally
+
+- Manifest referenced an undefined annotation datasource (`annotations: ["annotation"]`), while FE table behavior relied on annotation metadata.
+- Result was unstable/default column behavior in local FE runtime.
+- Impact: UI looked broken even when services were up.
+
 ## What Worked Well
 
 - Rapid commit cadence preserved traceability.
@@ -67,6 +79,22 @@
   4. Runtime user gate
 - Keep generated UI artifacts out of troubleshooting commits when possible.
 - Use a single diagnostics sheet per cycle: command, expected, actual, decision.
+- Add a strict local-first gate before any deploy:
+  1. CAP OData metadata reachable (`/odata/v4/sales-order/$metadata`)
+  2. FLP sandbox renders shell (renderer initialized)
+  3. FE component loads from local UI server
+  4. `UI.LineItem` present in metadata
+  5. list endpoint returns expected sample volume
+
+## Local Validation Contract (New)
+
+- **No deploy allowed** until these local checks pass in one run:
+  - `npx cds run --in-memory --with-mocks` starts cleanly
+  - `npm --prefix app/salesorders run start` serves FLP sandbox
+  - `http://localhost:8080/test/flpSandbox.html?...#SalesOrderReview-display` renders
+  - `curl` confirms `UI.LineItem` exists in metadata
+  - `curl` confirms non-trivial local dataset (not just 2–3 records)
+- Keep this as the first troubleshooting step whenever app appears “frozen”.
 
 ## Commit-Pattern Insights
 
@@ -85,3 +113,5 @@
   - Destination plan includes subaccount visibility where Work Zone reads.
 - Before role/site work, confirm app appears in Work Zone Content Explorer.
 - Only then proceed to site assignment and publish.
+- Before any cloud deploy, confirm local FLP runtime is healthy and deterministic.
+- Do not rely on browser personalization state when validating default columns; validate via metadata (`UI.LineItem`) first.

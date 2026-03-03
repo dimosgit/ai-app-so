@@ -16,7 +16,9 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "build": "cds build --production"
+    "build": "cds build --production",
+    "predeploy:check": "node scripts/predeploy-check.js",
+    "predeploy:smoke": "npm --prefix app/salesorders run build:cf && npm run predeploy:check"
   },
   "cds": {
     "requires": {

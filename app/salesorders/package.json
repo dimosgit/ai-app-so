@@ -1,13 +1,14 @@
 {
     "name": "salesorders",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Sales Order Attention List UI",
     "devDependencies": {
         "@sap/ux-ui5-tooling": "1",
+        "@ui5/cli": "^4.0.46",
         "ui5-task-zipper": "^3.5.1"
     },
     "scripts": {
-        "start": "fiori run --config ui5.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false#salesorders-display'",
+        "start": "node ./node_modules/@sap/ux-ui5-tooling/bin/fiori run --config ui5.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false#SalesOrderReview-display'",
         "build:cf": "ui5 build --config ui5-deploy.yaml --clean-dest --dest dist"
     },
     "sapux": true
