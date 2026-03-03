@@ -41,6 +41,9 @@ Deliver a CAP + Fiori app that is not only deployed, but reliably visible and as
   - FE component loads without 404/500
   - `UI.LineItem` present in metadata
   - sample data size is realistic for UX checks
+  - AppRouter has explicit namespaced FLP route (`^/ai/app/so/salesorders/(.*)$`)
+  - build artifact contains namespaced component resources (`ai/app/so/salesorders/*`)
+  - build artifact contains only one `manifest.json` at root (no namespaced duplicate)
 
 **Gate 1.5 (hard stop):** No `mbt build`/`cf deploy` until all local checks pass.
 
@@ -78,6 +81,16 @@ Deliver a CAP + Fiori app that is not only deployed, but reliably visible and as
   - `cf html5-list -di <destination-instance> -u` contains app
 
 **Gate 4:** technical deploy and html5 listing pass.
+
+## Phase 4.5 — Cloud Runtime Sanity (Mandatory)
+
+- Verify AppRouter behavior for namespaced FLP path:
+  - request `/ai/app/so/salesorders/Component.js` through AppRouter
+  - treat `401`/`200` as route matched; treat `404` as route mismatch
+- Confirm latest HTML5 app timestamp/version after deploy.
+- Check deploy output for HTML5 warnings (especially duplicate `manifest.json` app-id warning).
+
+**Gate 4.5:** namespaced resource path is auth-protected or served (not missing).
 
 ## Phase 5 — Work Zone Content Validation (Before Role Assignment)
 
@@ -128,6 +141,8 @@ Deliver a CAP + Fiori app that is not only deployed, but reliably visible and as
 - Never proceed to site role/page assignment before Content Explorer discovery.
 - Never debug roles when channel/provider sync does not contain app.
 - Do not mix generated artifact churn with semantic infrastructure fixes.
+- Never rely on root-only AppRouter html5 route when Launchpad may request namespaced app paths.
+- Never package duplicate app `manifest.json` entries in HTML5 ZIP.
 
 ## Suggested Timeline (If Followed from Start)
 
