@@ -40,8 +40,10 @@ modules:
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
-      memory: 128M
+      memory: 256M
       disk-quota: 256M
+      health-check-type: none
+      no-route: true
     requires:
       - name: ai-app-so-db
 
@@ -129,10 +131,10 @@ resources:
         xsappname: ai-app-so-${org}-${space}
         tenant-mode: dedicated
         role-collections:
-          - name: 'SalesOrderReviewer-${space}'
-            description: 'Review Sales Orders'
+          - name: "SalesOrderReviewer-${space}"
+            description: "Review Sales Orders"
             role-template-references:
-              - $XSAPPNAME.Token_Exchange
+              - $XSAPPNAME.UserRole
 
   - name: ai-app-so-destination-service
     type: org.cloudfoundry.managed-service
