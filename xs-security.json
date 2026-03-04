@@ -4,16 +4,44 @@
     "description": "Sales Order Attention List Security Configuration",
     "scopes": [
         {
+            "name": "$XSAPPNAME.Admin",
+            "description": "Administrator Scope"
+        },
+        {
             "name": "$XSAPPNAME.User",
             "description": "User Scope"
         }
     ],
     "role-templates": [
         {
+            "name": "AdminRole",
+            "description": "Administrator Role",
+            "scope-references": [
+                "$XSAPPNAME.Admin",
+                "$XSAPPNAME.User"
+            ]
+        },
+        {
             "name": "UserRole",
             "description": "General User Role",
             "scope-references": [
                 "$XSAPPNAME.User"
+            ]
+        }
+    ],
+    "role-collections": [
+        {
+            "name": "SalesOrderAdmin",
+            "description": "Sales Order Administrator",
+            "role-template-references": [
+                "$XSAPPNAME.AdminRole"
+            ]
+        },
+        {
+            "name": "SalesOrderUser",
+            "description": "Sales Order Standard User",
+            "role-template-references": [
+                "$XSAPPNAME.UserRole"
             ]
         }
     ],

@@ -1,6 +1,17 @@
 _schema-version: "3.1"
 ID: ai-app-so
 version: 1.0.0
+
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+        - npx cds build --production
+
 modules:
   - name: ai-app-so-srv
     type: nodejs
