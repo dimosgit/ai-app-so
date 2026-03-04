@@ -128,10 +128,10 @@ resources:
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: ai-app-so-${org}-${space}
+        xsappname: ai-app-so-westernacher-global-dev-Global-Development
         tenant-mode: dedicated
         role-collections:
-          - name: "SalesOrderReviewer-${space}"
+          - name: "SalesOrderReviewer"
             description: "Review Sales Orders"
             role-template-references:
               - $XSAPPNAME.UserRole
