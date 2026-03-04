@@ -146,7 +146,7 @@ resources:
         init_data:
           instance:
             destinations:
-              - Name: ai-app-so-srv-api
+              - Name: srv-api
                 Description: CAP Backend API
                 Authentication: NoAuthentication
                 ProxyType: Internet
@@ -157,7 +157,7 @@ resources:
             existing_destinations_policy: update
           subaccount:
             destinations:
-              - Name: ai-app-so-srv-api
+              - Name: srv-api
                 Description: CAP Backend API
                 Authentication: NoAuthentication
                 ProxyType: Internet
